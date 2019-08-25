@@ -1,0 +1,27 @@
+type Query {
+    productById (
+    id: Int! @doc(description: "Product ID")
+): ProductInterface
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\ProductById")
+    @doc(description: "Load a product by its ID")
+
+    productBySku (
+    sku: String! @doc(description: "Product SKU")
+): ProductInterface
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\ProductBySku")
+    @doc(description: "Load a product by its SKU")
+
+    cmsBlock (
+    identifier: String! @doc(description: "CMS Block identifier")
+): CmsBlock
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsBlock")
+    @doc(description: "Load a CMS block by its identifier")
+
+    cmsPages: CmsPages
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsPages")
+    @doc(description: "Load all CMS pages")
+}
+
+type CmsPages @doc(description: "CMS pages information") {
+    items: [CmsPage] @doc(description: "An array of CMS pages")
+}

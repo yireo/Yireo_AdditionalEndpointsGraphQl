@@ -52,3 +52,11 @@ Example:
   }
 }
 ```
+
+## `validateCustomerToken` - Validate a customer token
+Example:
+```graphql
+query validateToken {
+  validateCustomerToken(token:"abc")
+}
+```

@@ -20,6 +20,13 @@ type Query {
     cmsPages: CmsPages
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsPages")
     @doc(description: "Load all CMS pages")
+
+
+    validateCustomerToken(
+        token: String! @doc(description: "Customer token")
+    ): Boolean
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\ValidateCustomerToken")
+    @doc(description: "Validate customer token")
 }
 
 type CmsPages @doc(description: "CMS pages information") {

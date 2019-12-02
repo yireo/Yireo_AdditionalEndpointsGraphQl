@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace Yireo\AdditionalEndpointsGraphQl\Model\Resolver;
 
+use Magento\Catalog\Api\Data\ProductInterface;
 use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
@@ -64,6 +65,8 @@ class ProductById implements ResolverInterface
                 }
             }
         }
+
+        $data['model'] = $product;
 
         return $data;
     }

@@ -53,6 +53,22 @@ Example:
 }
 ```
 
+## `cmsWidget(Int! id)` - Get a CMS widget by its ID
+Example:
+```graphql
+{
+  cmsWidget(id: "2") {
+    id
+    title
+    html
+    parameters {
+      name
+      value
+    }
+  }
+}
+```
+
 ## `validateCustomerToken` - Validate a customer token
 Example:
 ```graphql

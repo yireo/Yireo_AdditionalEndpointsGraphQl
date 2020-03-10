@@ -17,10 +17,15 @@ type Query {
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsBlock")
     @doc(description: "Load a CMS block by its identifier")
 
+    cmsWidget (
+        id: String! @doc(description: "CMS Widget ID")
+    ): CmsWidget
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsWidget")
+    @doc(description: "Load a CMS widget by its identifier")
+
     cmsPages: CmsPages
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsPages")
     @doc(description: "Load all CMS pages")
-
 
     validateCustomerToken(
         token: String! @doc(description: "Customer token")
@@ -31,4 +36,16 @@ type Query {
 
 type CmsPages @doc(description: "CMS pages information") {
     items: [CmsPage] @doc(description: "An array of CMS pages")
+}
+
+type CmsWidget @doc(description: "CMS widget") {
+    id: String @doc(description: "Identifier of the CMS widget")
+    title: String @doc(description: "Identifier of the CMS widget")
+    html: String @doc(description: "HTML provided by CMS widget")
+    parameters: [CmsWidgetOption] @doc(description: "An array of CMS widget options")
+}
+
+type CmsWidgetOption @doc(description: "CMS widget option") {
+    name: String @doc(description: "Name of the CMS widget option")
+    value: String @doc(description: "Mixed value of the CMS widget option")
 }

@@ -11,6 +11,12 @@ type Query {
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\ProductBySku")
     @doc(description: "Load a product by its SKU")
 
+    categoryById (
+        id: Int! @doc(description: "Category ID")
+    ): CategoryInterface
+    @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CategoryById")
+    @doc(description: "Load a category by its ID")
+
     cmsBlock (
         identifier: String! @doc(description: "CMS Block identifier")
     ): CmsBlock

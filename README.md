@@ -30,6 +30,17 @@ Example:
 }
 ```
 
+## `categoryById(Int id)` - Get a category by its ID
+Example:
+```graphql
+{
+  categoryById(id:1){
+    id
+    name
+  }
+}
+```
+
 ## `cmsBlock(String! identifier)` - Get a CMS block by its identifier
 Example:
 ```graphql

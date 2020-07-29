@@ -1,7 +1,7 @@
 {
   "name": "yireo/magento2-additional-endpoints-graph-ql",
   "type": "magento2-module",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "license": "OSL-3.0",
   "description": "",
   "keywords": [
@@ -15,9 +15,9 @@
     }
   ],
   "require": {
-    "magento/framework": "^102.0",
-    "magento/module-catalog": "^101.0|^102.0|^103.0",
-    "magento/module-cms": "^101.0|^102.0|^103.0",
+    "magento/framework": "^102.0|^103.0",
+    "magento/module-catalog": "^101.0|^102.0|^103.0|^104.0",
+    "magento/module-cms": "^101.0|^102.0|^103.0|^104.0",
     "magento/module-graph-ql": "^100.0",
     "php": ">=7.0.0"
   },

@@ -1,0 +1,10 @@
+{
+    "module_name": "Yireo_AdditionalEndpointsGraphQl",
+    "composer_name": "yireo/magento2-additional-endpoints-graph-ql",
+    "sequence": [
+        "Magento_Catalog",
+        "Magento_Cms",
+        "Magento_GraphQl",
+        "Magento_Store"
+    ]
+}

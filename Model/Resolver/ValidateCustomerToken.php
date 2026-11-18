@@ -41,7 +41,7 @@ class ValidateCustomerToken implements ResolverInterface
      * @return array|Value|mixed
      * @throws GraphQlInputException
      */
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (empty($args['token'])) {
             throw new GraphQlInputException(__('Please supply a customer token'));

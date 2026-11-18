@@ -61,7 +61,7 @@ class CmsWidget implements ResolverInterface
      * @return array|Value|mixed
      * @throws GraphQlInputException
      */
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (empty($args['id']) || !is_numeric($args['id'])) {
             throw new GraphQlInputException(__('Please supply a CMS Widget ID'));

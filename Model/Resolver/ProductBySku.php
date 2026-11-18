@@ -42,7 +42,7 @@ class ProductBySku implements ResolverInterface
      * @return array|Value|mixed
      * @throws GraphQlInputException
      */
-    public function resolve(Field $field, $context, ResolveInfo $info, array $value = null, array $args = null)
+    public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
         if (empty($args['sku'])) {
             throw new GraphQlInputException(__('Please supply a product SKU'));

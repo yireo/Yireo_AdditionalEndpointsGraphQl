@@ -19,11 +19,9 @@
         "magento/module-catalog": "^101.0|^102.0|^103.0|^104.0",
         "magento/module-cms": "^101.0|^102.0|^103.0|^104.0",
         "magento/module-graph-ql": "^100.0",
+        "magento/module-integration": "^100.4",
+        "magento/module-widget": "^101.2",
         "php": ">=8.2 <8.6"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "*",
-        "composer/composer": "*@dev"
     },
     "autoload": {
         "psr-4": {

@@ -5,6 +5,10 @@
         "Magento_Catalog",
         "Magento_Cms",
         "Magento_GraphQl",
-        "Magento_Store"
-    ]
+        "Magento_Integration",
+        "Magento_Store",
+        "Magento_Widget"
+    ],
+    "phpcs_severity": "6",
+    "phpstan_level": "1"
 }

@@ -7,30 +7,18 @@ use Magento\Catalog\Api\ProductRepositoryInterface;
 use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
-use Magento\Framework\GraphQl\Query\Resolver\Value;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Yireo\AdditionalEndpointsGraphQl\Model\ProductDataProvider;
 
-/**
- * Class ProductBySku
- * @package Yireo\AdditionalEndpointsGraphQl\Model\Resolver
- */
 class ProductBySku implements ResolverInterface
 {
-    /**
-     * @var ProductRepositoryInterface
-     */
-    private $productRepository;
-
-    /**
-     * ProductById constructor.
-     * @param ProductRepositoryInterface $productRepository
-     */
     public function __construct(
-        ProductRepositoryInterface $productRepository
+        private readonly ProductRepositoryInterface $productRepository,
+        private readonly ProductDataProvider $productDataProvider
     ) {
-        $this->productRepository = $productRepository;
     }
 
     /**
@@ -39,32 +27,25 @@ class ProductBySku implements ResolverInterface
      * @param ResolveInfo $info
      * @param array|null $value
      * @param array|null $args
-     * @return array|Value|mixed
+     * @return array
      * @throws GraphQlInputException
+     * @throws GraphQlNoSuchEntityException
      */
     public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
-        if (empty($args['sku'])) {
+        $sku = trim((string)($args['sku'] ?? ''), " \f\n\r\t\v\x00");
+        if ($sku === '') {
             throw new GraphQlInputException(__('Please supply a product SKU'));
         }
 
+        $storeId = $this->productDataProvider->getStoreId();
+
         try {
-            $product = $this->productRepository->get((string)$args['sku']);
-        } catch (NoSuchEntityException $exception) {
-            throw new GraphQlInputException(__($exception->getMessage()));
+            $product = $this->productRepository->get($sku, false, $storeId);
+        } catch (NoSuchEntityException) {
+            throw new GraphQlNoSuchEntityException(__('The requested product was not found'));
         }
 
-        /** @var \Magento\Catalog\Model\Product $product */
-        $data = $product->getData();
-
-        if (!empty($product->getCustomAttributes())) {
-            foreach ($product->getCustomAttributes() as $customAttribute) {
-                if (!isset($data[$customAttribute->getAttributeCode()])) {
-                    $data[$customAttribute->getAttributeCode()] = $customAttribute->getValue();
-                }
-            }
-        }
-
-        return $data;
+        return $this->productDataProvider->getData($product);
     }
 }

@@ -24,7 +24,7 @@ type Query {
     @doc(description: "Load a CMS block by its identifier")
 
     cmsWidget (
-        id: String! @doc(description: "CMS Widget ID")
+        id: Int! @doc(description: "CMS Widget ID")
     ): CmsWidget
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsWidget")
     @doc(description: "Load a CMS widget by its identifier")
@@ -45,7 +45,7 @@ type CmsPages @doc(description: "CMS pages information") {
 
 type CmsWidget @doc(description: "CMS widget") {
     id: String @doc(description: "Identifier of the CMS widget")
-    title: String @doc(description: "Identifier of the CMS widget")
+    title: String @doc(description: "Title of the CMS widget")
     html: String @doc(description: "HTML provided by CMS widget")
     parameters: [CmsWidgetOption] @doc(description: "An array of CMS widget options")
 }

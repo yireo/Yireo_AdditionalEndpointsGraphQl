@@ -12,11 +12,13 @@ This module offers some additional endpoints for loading information through Gra
 ## Installation
 Use the following commands to install this module into Magento 2:
 
-    composer require magento2-additional-endpoints-graph-ql:@dev
+    composer require yireo/magento2-additional-endpoints-graph-ql:@dev
     bin/magento module:enable Yireo_AdditionalEndpointsGraphQl
     bin/magento setup:upgrade
 
-## `productById(Int id)` - Get a product by its ID
+## `productById(Int! id)` - Get a product by its ID
+Only enabled products that are visible in the catalog or search, and that are assigned to the current website, are returned.
+
 Example:
 ```graphql
 {
@@ -28,6 +30,8 @@ Example:
 ```
 
 ## `productBySku(String! sku)` - Get a product by its SKU
+The same restrictions as for `productById` apply.
+
 Example:
 ```graphql
 {
@@ -38,11 +42,13 @@ Example:
 }
 ```
 
-## `categoryById(Int id)` - Get a category by its ID
+## `categoryById(Int! id)` - Get a category by its ID
+Only active categories within the root category of the current store are returned.
+
 Example:
 ```graphql
 {
-  categoryById(id:1){
+  categoryById(id:3){
     id
     name
   }
@@ -50,6 +56,8 @@ Example:
 ```
 
 ## `cmsBlock(String! identifier)` - Get a CMS block by its identifier
+Only active blocks of the current store view (or all store views) are returned. Directives in the content are processed.
+
 Example:
 ```graphql
 {
@@ -61,6 +69,8 @@ Example:
 ```
 
 ## `cmsPages` - Get all CMS pages
+Returns the first 20 active pages of the current store view (or all store views). Directives in the content are processed.
+
 Example:
 ```graphql
 {
@@ -73,10 +83,12 @@ Example:
 ```
 
 ## `cmsWidget(Int! id)` - Get a CMS widget by its ID
+Only widget instances of a known widget type, assigned to the current store view (or all store views) and to the theme of the current store view, are returned. Only scalar parameters from an allowlist are returned (the `$allowedParameters` constructor argument of `Yireo\AdditionalEndpointsGraphQl\Model\Resolver\CmsWidget`, which you can change via `di.xml`).
+
 Example:
 ```graphql
 {
-  cmsWidget(id: "2") {
+  cmsWidget(id: 2) {
     id
     title
     html
@@ -89,12 +101,16 @@ Example:
 ```
 
 ## `validateCustomerToken` - Validate a customer token
+Send the customer token as `Authorization: Bearer <token>` header. The query returns `true` when the token belongs to a customer and is valid (not expired, not revoked). It returns `false` without a token. An invalid or expired token is rejected by Magento with an authorization error.
+
 Example:
 ```graphql
 query validateToken {
-  validateCustomerToken(token:"abc")
+  validateCustomerToken
 }
 ```
+
+Up to version 0.0.3, this query had a `token` argument. This argument was removed for security reasons.
 
 ## Current status
 

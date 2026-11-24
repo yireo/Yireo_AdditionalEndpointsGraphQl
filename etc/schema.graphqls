@@ -33,11 +33,10 @@ type Query {
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\CmsPages")
     @doc(description: "Load all CMS pages")
 
-    validateCustomerToken(
-        token: String! @doc(description: "Customer token")
-    ): Boolean
+    validateCustomerToken: Boolean
     @resolver(class: "Yireo\\AdditionalEndpointsGraphQl\\Model\\Resolver\\ValidateCustomerToken")
-    @doc(description: "Validate customer token")
+    @doc(description: "Validate the customer token sent in the Authorization header")
+    @cache(cacheable: false)
 }
 
 type CmsPages @doc(description: "CMS pages information") {

@@ -3,55 +3,29 @@ declare(strict_types=1);
 
 namespace Yireo\AdditionalEndpointsGraphQl\Model\Resolver;
 
+use Magento\Authorization\Model\UserContextInterface;
 use Magento\Framework\GraphQl\Config\Element\Field;
-use Magento\Framework\GraphQl\Exception\GraphQlInputException;
-use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
-use Magento\Framework\GraphQl\Query\Resolver\Value;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
-use Magento\Integration\Model\ResourceModel\Oauth\Token\CollectionFactory;
+use Magento\GraphQl\Model\Query\ContextInterface;
 
-/**
- * Class ValidateCustomerToken
- * @package Yireo\AdditionalEndpointsGraphQl\Model\Resolver
- */
 class ValidateCustomerToken implements ResolverInterface
 {
     /**
-     * @var CollectionFactory
-     */
-    private $tokenCollectionFactory;
-
-    /**
-     * ValidateCustomerToken constructor.
-     * @param CollectionFactory $tokenCollectionFactory
-     */
-    public function __construct(
-        CollectionFactory $tokenCollectionFactory
-    ) {
-        $this->tokenCollectionFactory = $tokenCollectionFactory;
-    }
-
-    /**
      * @param Field $field
-     * @param ContextInterface $context
+     * @param ContextInterface|mixed $context
      * @param ResolveInfo $info
      * @param array|null $value
      * @param array|null $args
-     * @return array|Value|mixed
-     * @throws GraphQlInputException
+     * @return bool
      */
     public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
-        if (empty($args['token'])) {
-            throw new GraphQlInputException(__('Please supply a customer token'));
+        if (!$context instanceof ContextInterface) {
+            return false;
         }
 
-        $tokenCollection = $this->tokenCollectionFactory->create()->addFieldToFilter('token', $args['token']);
-        if ($tokenCollection->count() > 0) {
-            return true;
-        }
-
-        return false;
+        return (int)$context->getUserType() === UserContextInterface::USER_TYPE_CUSTOMER
+            && (int)$context->getUserId() > 0;
     }
 }

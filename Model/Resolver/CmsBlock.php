@@ -3,46 +3,22 @@ declare(strict_types=1);
 
 namespace Yireo\AdditionalEndpointsGraphQl\Model\Resolver;
 
-use Magento\Cms\Api\BlockRepositoryInterface;
-use Magento\Cms\Model\Block;
-use Magento\Framework\Api\Filter;
-use Magento\Framework\Api\SearchCriteriaBuilder;
-use Magento\Framework\Api\SearchCriteriaBuilderFactory;
-use Magento\Framework\Exception\LocalizedException;
+use Magento\CmsGraphQl\Model\Resolver\DataProvider\Block as BlockDataProvider;
+use Magento\Framework\Exception\NoSuchEntityException;
 use Magento\Framework\GraphQl\Config\Element\Field;
 use Magento\Framework\GraphQl\Exception\GraphQlInputException;
+use Magento\Framework\GraphQl\Exception\GraphQlNoSuchEntityException;
 use Magento\Framework\GraphQl\Query\Resolver\ContextInterface;
-use Magento\Framework\GraphQl\Query\Resolver\Value;
 use Magento\Framework\GraphQl\Query\ResolverInterface;
 use Magento\Framework\GraphQl\Schema\Type\ResolveInfo;
+use Magento\Store\Model\StoreManagerInterface;
 
-/**
- * Class CmsBlock
- * @package Yireo\AdditionalEndpointsGraphQl\Model\Resolver
- */
 class CmsBlock implements ResolverInterface
 {
-    /**
-     * @var BlockRepositoryInterface
-     */
-    private $cmsBlockRepository;
-
-    /**
-     * @var SearchCriteriaBuilderFactory
-     */
-    private $searchCriteriaBuilderFactory;
-
-    /**
-     * CmsBlock constructor.
-     * @param BlockRepositoryInterface $cmsBlockRepository
-     * @param SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
-     */
     public function __construct(
-        BlockRepositoryInterface $cmsBlockRepository,
-        SearchCriteriaBuilderFactory $searchCriteriaBuilderFactory
+        private readonly BlockDataProvider $blockDataProvider,
+        private readonly StoreManagerInterface $storeManager
     ) {
-        $this->cmsBlockRepository = $cmsBlockRepository;
-        $this->searchCriteriaBuilderFactory = $searchCriteriaBuilderFactory;
     }
 
     /**
@@ -51,39 +27,24 @@ class CmsBlock implements ResolverInterface
      * @param ResolveInfo $info
      * @param array|null $value
      * @param array|null $args
-     * @return array|Value|mixed
+     * @return array
      * @throws GraphQlInputException
+     * @throws GraphQlNoSuchEntityException
      */
     public function resolve(Field $field, $context, ResolveInfo $info, ?array $value = null, ?array $args = null)
     {
-        if (empty($args['identifier'])) {
+        $identifier = trim((string)($args['identifier'] ?? ''), " \f\n\r\t\v\x00");
+        if ($identifier === '') {
             throw new GraphQlInputException(__('Please supply a CMS Block identifier'));
         }
 
         try {
-            /** @var SearchCriteriaBuilder $searchCriteriaBuilder */
-            $searchCriteriaBuilder = $this->searchCriteriaBuilderFactory->create();
-            $searchCriteriaBuilder->addFilter('identifier', (string)$args['identifier']);
-            $searchCriteriaBuilder->setCurrentPage(1);
-            $searchCriteriaBuilder->setPageSize(1);
-            $searchCriteria = $searchCriteriaBuilder->create();
-
-            $searchResults = $this->cmsBlockRepository->getList($searchCriteria);
-            $cmsBlocks = $searchResults->getItems();
-
-            if (empty($cmsBlocks)) {
-                throw new GraphQlInputException(__('No such block found: ' . $args['identifier']));
-            }
-
-            $cmsBlock = array_shift($cmsBlocks);
-
-        } catch (LocalizedException $exception) {
-            throw new GraphQlInputException(__($exception->getMessage()));
+            return $this->blockDataProvider->getBlockByIdentifier(
+                $identifier,
+                (int)$this->storeManager->getStore()->getId()
+            );
+        } catch (NoSuchEntityException) {
+            throw new GraphQlNoSuchEntityException(__('The requested CMS block was not found'));
         }
-
-        /** @var Block $cmsBlock */
-        $data = $cmsBlock->getData();
-
-        return $data;
     }
 }

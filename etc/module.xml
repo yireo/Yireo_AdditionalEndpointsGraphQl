@@ -2,10 +2,12 @@
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
     <module name="Yireo_AdditionalEndpointsGraphQl" setup_version="0.0.1">
         <sequence>
+            <module name="Magento_Authorization"/>
             <module name="Magento_Catalog"/>
+            <module name="Magento_CatalogGraphQl"/>
             <module name="Magento_Cms"/>
+            <module name="Magento_CmsGraphQl"/>
             <module name="Magento_GraphQl"/>
-            <module name="Magento_Integration"/>
             <module name="Magento_Store"/>
             <module name="Magento_Widget"/>
         </sequence>

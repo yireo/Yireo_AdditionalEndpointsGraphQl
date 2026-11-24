@@ -2,10 +2,12 @@
     "module_name": "Yireo_AdditionalEndpointsGraphQl",
     "composer_name": "yireo/magento2-additional-endpoints-graph-ql",
     "sequence": [
+        "Magento_Authorization",
         "Magento_Catalog",
+        "Magento_CatalogGraphQl",
         "Magento_Cms",
+        "Magento_CmsGraphQl",
         "Magento_GraphQl",
-        "Magento_Integration",
         "Magento_Store",
         "Magento_Widget"
     ],

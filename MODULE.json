@@ -12,5 +12,45 @@
         "Magento_Widget"
     ],
     "phpcs_severity": "6",
-    "phpstan_level": "1"
+    "phpstan_level": "1",
+    "php_versions": [
+        "8.1",
+        "8.2",
+        "8.3",
+        "8.4"
+    ],
+    "skip_magento_versions": [],
+    "skip_css_utils": false,
+    "modules": [
+        "Magento_AdminNotification",
+        "Magento_Authorization",
+        "Magento_Backend",
+        "Magento_Catalog",
+        "Magento_CatalogGraphQl",
+        "Magento_Cms",
+        "Magento_CmsGraphQl",
+        "Magento_Config",
+        "Magento_Csp",
+        "Magento_Customer",
+        "Magento_Directory",
+        "Magento_Eav",
+        "Magento_EavGraphQl",
+        "Magento_GraphQl",
+        "Magento_GraphQlResolverCache",
+        "Magento_Indexer",
+        "Magento_MediaGalleryUiApi",
+        "Magento_Search",
+        "Magento_Store",
+        "Magento_StoreGraphQl",
+        "Magento_Theme",
+        "Magento_Variable",
+        "Magento_Widget"
+    ],
+    "components": [],
+    "config": [],
+    "tests": {
+        "unit": 2,
+        "integration": 23,
+        "functional": 0
+    }
 }

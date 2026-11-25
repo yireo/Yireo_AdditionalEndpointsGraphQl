@@ -1,0 +1,36 @@
+schema_version: "1.6.0"
+id: YIREO-ADDITIONAL-ENDPOINTS-GRAPHQL-2026-002
+published: "2026-11-25T00:00:00Z"
+modified: "2026-11-25T00:00:00Z"
+aliases: []
+summary: Unauthenticated disclosure of disabled catalog data, inactive CMS content and widget instances
+details: >
+  Several GraphQL queries of this module did not apply the visibility rules of the storefront.
+  productById and productBySku returned disabled products, products not visible individually and
+  products of other websites. categoryById returned inactive categories and categories outside the
+  root category of the current store. cmsBlock returned inactive blocks and blocks of other store
+  views, and reflected the requested identifier in its error message. cmsPages listed pages of all
+  store views. cmsWidget accepted any enumerable widget instance ID, instantiated whatever instance
+  type was stored in the database and returned all of its parameters. Version 1.0.0 only returns
+  enabled, visible and active data of the current store, restricts cmsWidget to widget types declared
+  in widget.xml that belong to the current store view and theme, and only returns allowlisted scalar
+  widget parameters.
+severity:
+  - type: CVSS_V3
+    score: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:N/A:N"
+affected:
+  - package:
+      ecosystem: Packagist
+      name: yireo/magento2-additional-endpoints-graph-ql
+    ranges:
+      - type: ECOSYSTEM
+        events:
+          - introduced: "0"
+          - fixed: "1.0.0"
+references:
+  - type: PACKAGE
+    url: https://github.com/yireo/Yireo_AdditionalEndpointsGraphQl
+database_specific:
+  cwe_ids:
+    - CWE-200
+    - CWE-284

@@ -1,0 +1,32 @@
+schema_version: "1.6.0"
+id: YIREO-ADDITIONAL-ENDPOINTS-GRAPHQL-2026-001
+published: "2026-11-25T00:00:00Z"
+modified: "2026-11-25T00:00:00Z"
+aliases: []
+summary: validateCustomerToken reports revoked, expired, admin and integration tokens as valid
+details: >
+  The validateCustomerToken GraphQL query looked up the given token in the oauth_token table without
+  checking its type, revocation or expiry. As a result, it returned true for revoked and expired
+  customer tokens as well as for admin and integration tokens, and false for JWT customer tokens.
+  Clients relying on this query to decide whether a customer session is still valid could treat an
+  invalid or non-customer token as a logged-in customer. Version 1.0.0 removes the token argument:
+  the token is read from the Authorization header by Magento, and the query only returns true for an
+  authenticated customer. The query is no longer cacheable.
+severity:
+  - type: CVSS_V3
+    score: "CVSS:3.1/AV:N/AC:L/PR:N/UI:N/S:U/C:L/I:L/A:N"
+affected:
+  - package:
+      ecosystem: Packagist
+      name: yireo/magento2-additional-endpoints-graph-ql
+    ranges:
+      - type: ECOSYSTEM
+        events:
+          - introduced: "0"
+          - fixed: "1.0.0"
+references:
+  - type: PACKAGE
+    url: https://github.com/yireo/Yireo_AdditionalEndpointsGraphQl
+database_specific:
+  cwe_ids:
+    - CWE-287

@@ -8,12 +8,6 @@
         "composer-installer",
         "magento"
     ],
-    "authors": [
-        {
-            "name": "Jisse Reitsma (Yireo)",
-            "email": "jisse@yireo.com"
-        }
-    ],
     "require": {
         "magento/framework": "^102.0|^103.0|^104.0",
         "magento/module-authorization": "^100.4",
@@ -28,7 +22,8 @@
     },
     "require-dev": {
         "ext-json": "*",
-        "phpunit/phpunit": "^10.5"
+        "phpunit/phpunit": "^10.5",
+        "yireo/magento2-integration-test-helper": "~0.0"
     },
     "autoload": {
         "psr-4": {
